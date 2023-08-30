@@ -703,8 +703,14 @@ class Mention {
       const textAfter = textBeforeCursor.substring(
         mentionCharIndex + mentionChar.length
       );
+	let minChars = 0;
+	if (typeof this.options.minChars === 'function') {
+	    minChars = this.options.minChars(mentionChar);
+	} else {
+	    minChars = this.options.minChars;
+	}
       if (
-        textAfter.length >= this.options.minChars &&
+        textAfter.length >= minChars &&
         hasValidChars(textAfter, this.getAllowedCharsRegex(mentionChar))
       ) {
         if (this.existingSourceExecutionToken) {
