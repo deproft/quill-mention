@@ -302,12 +302,16 @@ class Mention {
       insertAtPos = this.cursorPos;
     }
     const delta = this.quill.insertEmbed(insertAtPos, options.blotName, render, Quill.sources.USER);
-    if (options.spaceAfterInsert) {
+    if (options.spaceAfterInsert === true) {
       this.quill.insertText(insertAtPos + 1, " ", Quill.sources.USER);
       // setSelection here sets cursor position
       this.quill.setSelection(insertAtPos + 2, Quill.sources.USER);
-    } else {
+    } else if (options.spaceAfterInsert === false) {
       this.quill.setSelection(insertAtPos + 1, Quill.sources.USER);
+    } else {
+      this.quill.insertText(insertAtPos + 1, options.spaceAfterInsert , Quill.sources.USER);
+      // setSelection here sets cursor position
+      this.quill.setSelection(insertAtPos + 2, Quill.sources.USER);
     }
     this.hideMentionList();
     return delta;
